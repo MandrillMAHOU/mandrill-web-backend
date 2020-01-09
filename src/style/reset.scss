@@ -18,14 +18,14 @@ time, mark, audio, video, input {
   border: 0;
   font: inherit;
   vertical-align: baseline;
-  color: $color;
   font-family: 'Raleway', sans-serif, '微软雅黑';
 }
 
 html {
   font-size: 12px;
-  background: $white;
+  background: #fafafa;
   line-height: 1;
+  color: $color;
 }
 
 q:before, q:after, blockquote:before, blockquote:after {

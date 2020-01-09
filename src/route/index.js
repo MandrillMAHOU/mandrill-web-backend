@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import http from '../config/http';
+import store from '../store';
 import Login from './login';
 import Article from './article';
 
@@ -42,10 +43,11 @@ router.beforeEach((to, from, next) => {
   const { title } = to.meta;
   document.title = `${title}`;
   // send get req to login to verify login status
-  if (to.name !== 'login') {
-    http('login', null, { method: 'get' }).then((res) => {
-      console.log(res);
-    });
+  if (to.name !== 'login' && to.name !== '404') {
+    http('login', null, { method: 'get' }).then(() => {
+      const userInfo = JSON.parse(localStorage.getItem('mandrillBEUser'));
+      store.commit('setUserInfo', userInfo);
+    }).catch((e) => { console.log(e); });
   }
   next();
 });

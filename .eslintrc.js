@@ -25,6 +25,7 @@ module.exports = {
     "import/extensions": 0,
     "prefer-promise-reject-errors": 0,
     "import/no-cycle": 0,
+    "no-underscore-dangle": 0,
   },
   parserOptions: {
     parser: 'babel-eslint',

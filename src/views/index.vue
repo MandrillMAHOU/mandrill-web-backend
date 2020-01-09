@@ -5,6 +5,7 @@
         router
         :unique-opened="true"
         :default-openeds="['1']"
+        :default-active="$route.name"
         class="mandrill-menu">
         <el-submenu index="1">
           <template slot="title">
@@ -12,8 +13,18 @@
             <span>文章</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/article">文章列表</el-menu-item>
-            <el-menu-item index="/article/detail">新建文章</el-menu-item>
+            <el-menu-item index="articleList" :route="{ name: 'articleList' }">
+              <i class="el-icon-folder-opened"></i>
+              文章列表
+            </el-menu-item>
+            <el-menu-item index="articleDetail" :route="{ name: 'articleDetail' }">
+              <i class="el-icon-edit-outline"></i>
+              新建文章
+            </el-menu-item>
+            <el-menu-item index="articleSetting" :route="{ name: 'articleSetting' }">
+              <i class="el-icon-s-tools"></i>
+              文章设置
+            </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2" disabled>
@@ -22,8 +33,8 @@
             <span>用户</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="a">用户列表</el-menu-item>
-            <el-menu-item index="b">新建用户</el-menu-item>
+            <el-menu-item index="2-1">用户列表</el-menu-item>
+            <el-menu-item index="2-2">新建用户</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -37,6 +48,10 @@
         <div class="user">
           <span>
             {{ userInfo.username || '未知用户' }}
+          </span>
+          <span class="split"> | </span>
+          <span>
+            登陆时间：{{ userInfo.loginTime || '-' }}
           </span>
           <span class="split"> | </span>
           <span class="logout" @click="handleLogout">
@@ -81,6 +96,7 @@ export default {
   .mandrill-main-content-container {
     flex: 1;
     .title-container {
+      background: $white;
       padding: 10px 50px;
       display: flex;
       align-items: center;

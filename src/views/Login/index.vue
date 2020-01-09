@@ -33,8 +33,12 @@ export default {
       this.$http('login', this.formData).then((res) => {
         const { code, data } = res;
         if (code === '0' && data) {
-          this.$store.commit('setUserInfo', data);
           localStorage.setItem('mandrillToken', data.mandrillToken || '');
+          localStorage.setItem('mandrillBEUser', JSON.stringify({
+            username: data.username || '',
+            loginTime: data.loginTime || '',
+          })); // back end user info
+          this.$store.commit('setUserInfo', data);
           this.$router.push({ name: 'articleList' });
         }
       });
