@@ -38,7 +38,7 @@
         </el-select>
       </div>
       <el-table
-        class="tag-table"
+        class="basic-table"
         :data="tagTableData">
         <el-table-column
           prop="value"
@@ -62,7 +62,7 @@
           <template slot-scope="scope">
             <i
               class="el-icon-delete operation"
-              @click="handleDelte(scope.row)"></i>
+              @click="handleDelete(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -103,7 +103,7 @@ export default {
       });
     },
     // 删除标签
-    handleDelte(row) {
+    handleDelete(row) {
       this.$confirm('确定删除此标签?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -177,22 +177,6 @@ export default {
       margin-bottom: 10px;
       .sub-title {
         margin-bottom: 0;
-      }
-    }
-    .tag-table {
-      font-size: 1.2rem;
-      .el-table__header-wrapper {
-        tr th {
-          font-weight: bold;
-          background: $light-grey;
-        }
-      }
-      .el-table__body-wrapper {
-        tr td {
-          .operation {
-            cursor: pointer;
-          }
-        }
       }
     }
   }

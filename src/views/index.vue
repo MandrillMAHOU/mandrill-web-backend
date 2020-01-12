@@ -89,8 +89,9 @@ export default {
   .mandrill-menu-container {
     flex: 0 0 200px;
     width: 200px;
+    min-height: 100vh;
     .mandrill-menu {
-      min-height: 100vh;
+      height: 100%;
     }
   }
   .mandrill-main-content-container {

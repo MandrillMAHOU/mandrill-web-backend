@@ -26,3 +26,23 @@ body.disable-scroll {
   overflow: hidden;
   // padding-right: 6px;
 }
+
+.basic-table {
+  font-size: 1.2rem;
+  .el-table__header-wrapper {
+    tr th {
+      font-weight: bold;
+      background: $light-grey;
+    }
+  }
+  .el-table__body-wrapper {
+    tr td {
+      .operation {
+        cursor: pointer;
+      }
+      .operation + .operation {
+        margin-left: 10px;
+      }
+    }
+  }
+}
