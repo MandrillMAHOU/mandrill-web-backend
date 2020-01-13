@@ -27,6 +27,13 @@ body.disable-scroll {
   // padding-right: 6px;
 }
 
+// 文字过长样式
+.text-shorten {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .basic-table {
   font-size: 1.2rem;
   .el-table__header-wrapper {

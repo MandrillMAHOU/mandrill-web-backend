@@ -15,6 +15,17 @@
         </el-option>
       </el-select>
     </div>
+    <div class="tags-select-container">
+      <span class="label">标签：</span>
+      <span
+        @click="clickTag(item)"
+        class="tag"
+        :class="{ selected: item._id === curTag._id }"
+        v-for="(item, index) of allTags"
+        :key="index">
+        {{ item.label || '-' }}
+      </span>
+    </div>
     <div class="article-table-container">
       <el-table
         class="basic-table"
@@ -34,12 +45,26 @@
           prop="desc"
           label="简介"
           align="center">
+          <template slot-scope="scope">
+            <span class="text-shorten">
+              {{ scope.row.desc || '-' }}
+            </span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="createTime"
           label="创建时间"
           align="center"
           sortable>
+        </el-table-column>
+        <el-table-column
+          label="标签"
+          align="center">
+          <template slot-scope="scope">
+            <span class="text-shorten">
+              {{ scope.row.selectedTags.map((item) => (item.label)).join(', ') || '-' }}
+            </span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -82,6 +107,8 @@ export default {
         { value: 'coding', label: 'Coding' },
         { value: 'talk', label: 'Talk' },
       ],
+      allTags: [],
+      curTag: '',
     };
   },
   methods: {
@@ -127,6 +154,7 @@ export default {
     getArticleList() {
       const params = {
         category: this.category,
+        tag: this.curTag._id,
         pno: this.pno,
         size: this.size,
       };
@@ -144,10 +172,31 @@ export default {
           this.total = 0;
         }
       });
-    }
+    },
+    clickTag(tag) {
+      if (tag._id !== this.curTag._id) {
+        this.curTag = tag;
+      } else {
+        this.curTag = '';
+      }
+      this.category = '';
+      this.getArticleList();
+    },
+    // 获取标签列表
+    getTagList() {
+      this.$http('getTagList').then((res) => {
+        const { code, data } = res;
+        if (code === '0' && data && data.length) {
+          this.allTags = data;
+        } else {
+          this.allTags = [];
+        }
+      });
+    },
   },
   created() {
     this.getArticleList();
+    this.getTagList();
   }
 };
 </script>
@@ -165,6 +214,23 @@ export default {
     align-items: center;
     font-size: 14px;
     margin-bottom: 18px;
+  }
+  .tags-select-container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 18px;
+    .tag {
+      cursor: pointer;
+      user-select: none;
+      padding: 5px 10px;
+      border-radius: 2px;
+      background: #ccc;
+      margin-right: 10px;
+      &.selected {
+        background: $orange;
+      }
+    }
   }
   .article-table-container {
     margin-bottom: 18px;

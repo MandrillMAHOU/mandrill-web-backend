@@ -35,6 +35,15 @@
         <el-form-item label="文章简介" prop="desc">
           <el-input type="textarea" v-model="articleData.desc"></el-input>
         </el-form-item>
+        <el-form-item label="文章配图">
+          <input
+            ref="coverInput"
+            type="file"
+            accept="image/*">
+        </el-form-item>
+        <el-form-item v-if="articleId" label="配图预览">
+          <img :src="coverImg" alt="封面预览" height="100">
+        </el-form-item>
         <el-form-item label="创建时间" prop="createTime">
           <el-switch
             style="margin-right: 10px;"
@@ -94,6 +103,7 @@ export default {
         // md编辑器
         content: '',
       },
+      coverImg: '',
       allTags: [],
       articleRules: {
         name: [
@@ -152,13 +162,26 @@ export default {
             createTime,
             content: articleData.content,
           };
+          // 处理文章封面图片, 有封面图
+          if (this.$refs.coverInput && this.$refs.coverInput.files && this.$refs.coverInput.files[0]) {
+            params.coverImg = this.$refs.coverInput.files[0];
+          }
           let url = 'createArticle';
           if (this.articleId) {
             url = 'updateArticle';
             params.id = this.articleId;
             params.renewTime = this.fakeDate; // update create time
           }
-          this.$http(url, params).then((res) => {
+
+          // with file input, input using form data
+          const formData = new FormData();
+          for (const key in params) {
+            formData.append(key, params[key]);
+          }
+
+          this.$http(url, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          }).then((res) => {
             const { code, data } = res;
             if (code === '0') {
               this.$message({
@@ -188,6 +211,7 @@ export default {
       }).then((res) => {
         const { code, data } = res;
         if (code === '0' && data) {
+          this.coverImg = data.coverImg; // 编辑时的封面预览
           // keep res data is align with form data
           for (const key in data) {
             if (!Object.keys(this.articleData).includes(key)) {

@@ -22,6 +22,14 @@ module.exports = {
           '^/mandrill-api': '',
         },
       },
+      '/public': {
+        target: 'http://localhost:3000',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/public': '',
+        },
+      }
     },
     open: true,
   },
