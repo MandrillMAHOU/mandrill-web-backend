@@ -327,6 +327,7 @@ export default {
   }
   .editor-container {
     margin-bottom: 20px;
+    max-width: 1200px;
     .mavon-editor {
       ol {
         list-style: decimal;

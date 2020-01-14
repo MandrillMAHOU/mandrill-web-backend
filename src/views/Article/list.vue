@@ -58,6 +58,12 @@
           sortable>
         </el-table-column>
         <el-table-column
+          prop="readNum"
+          label="阅读数量"
+          align="center"
+          sortable>
+        </el-table-column>
+        <el-table-column
           label="标签"
           align="center">
           <template slot-scope="scope">
