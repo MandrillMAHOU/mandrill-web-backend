@@ -75,7 +75,8 @@
         v-model="articleData.content"
         codeStyle="monokai"
         :tabSize="2"
-        @imgAdd="handleImgAdd"/>
+        @imgAdd="handleImgAdd"
+        @imgDel="handleImgDelete" />
     </div>
     <div class="operations-container">
       <el-button type="primary" @click="handleCreate">{{ articleId ? '保存编辑' : '创建' }}</el-button>
@@ -139,8 +140,28 @@ export default {
   },
   methods: {
     // =======md编辑器=======
+    // 图片上传
     handleImgAdd(pos, file) {
-      console.log(pos, file);
+      const formData = new FormData();
+      formData.append('img', file);
+      this.$http('imgUpload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }).then((res) => {
+        const { code, data } = res;
+        if (code === '0' && data) {
+          this.$refs.mavonEditor.$img2Url(pos, data);
+        }
+      });
+    },
+    handleImgDelete(url) {
+      if (url.constructor === Array) {
+        url = url[0];
+      }
+      const params = {
+        url,
+      };
+      this.$http('imgDelete', params).then((res) => {
+      });
     },
     // =======md编辑器=======
     // 保存文章

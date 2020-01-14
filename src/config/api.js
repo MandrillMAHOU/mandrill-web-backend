@@ -46,5 +46,14 @@ export default {
   getArticle: {
     method: 'get',
     url: '/article/detail',
+  },
+  // 文章内文件上传
+  imgUpload: {
+    method: 'post',
+    url: '/article/imgUpload',
+  },
+  imgDelete: {
+    method: 'post',
+    url: '/article/imgDelete',
   }
 };
