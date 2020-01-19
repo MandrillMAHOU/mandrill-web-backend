@@ -242,7 +242,12 @@ export default {
           this.articleData = {
             name: data.name,
             category: data.category,
-            selectedTags: data.selectedTags, // _ids of tags which are selected
+            selectedTags: data.selectedTags.map((tag) => {
+              if (tag.constructor === String) {
+                return tag;
+              }
+              return tag._id;
+            }), // _ids of tags which are selected
             desc: data.desc,
             createDate: data.createTime.split(' ')[0] || '',
             createTime: data.createTime.split(' ')[1] || '',
